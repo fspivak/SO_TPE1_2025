@@ -22,6 +22,7 @@ TPE1Test.out
 # Archivos del sistema
 .DS_Store
 Thumbs.db
+.bash_history
 
 # Memoria compartida y otros recursos IPC
 /dev/shm/game_*
