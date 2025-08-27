@@ -1,0 +1,40 @@
+# Binarios
+bin/
+*.o
+*.exe
+*.out
+
+# Archivos de tests
+test/*.o
+TPE1Test.out
+
+# Archivos de depuración
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Archivos temporales
+*~
+.*.swp
+.*.swo
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Memoria compartida y otros recursos IPC
+/dev/shm/game_*
+
+# Logs y archivos de prueba
+*.log
+.DS_Store
+Thumbs.db
+
+# Memoria compartida y otros recursos IPC
+/dev/shm/game_*
+
+# Logs y archivos de prueba
+*.log
+test_*
+!test.sh
