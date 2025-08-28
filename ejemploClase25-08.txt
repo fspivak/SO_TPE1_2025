@@ -16,6 +16,11 @@ while(1){
     ejecutar_movimientos(...);
 
     post(mutex)
+
+
+
+
+    // RECORDAR CHEQUEAR EL PASAJES DE ARGUMENTOS
 }
 
 player:
@@ -34,6 +39,11 @@ while(1){
     enviar_movimiento(...)
     post(mutex)
     
+}
+
+
+View{
+    TODO: RANKING PLAYERS
 }
 
 */
