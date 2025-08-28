@@ -67,6 +67,7 @@ void print_game_state(){
     int players_count=&game_state->player_count;
     const player_t *players_array=&game_state->players;
 
+    printf("\033c"); //Clear terminal
     printf("===ChompChamps=== \n Board: %d x %d", width, height);
 
     for(int i=0; i< players_count; i++){
