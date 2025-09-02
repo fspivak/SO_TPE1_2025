@@ -54,25 +54,4 @@ typedef struct {
     sem_t player_turn[MAX_PLAYERS]; // Semáforos para cada jugador (G)
 } game_sync_t;
 
-// Funciones de utilidad para calcular offsets del tablero
-static inline int* get_cell(game_state_t* state, int x, int y) {
-    return &state->board[y * state->width + x];
-}
-
-// Calcular desplazamiento según dirección
-static inline void get_direction_offset(direction_t dir, int* dx, int* dy) {
-    static const int offsets[][2] = {
-        {0, -1},  // UP
-        {1, -1},  // UP_RIGHT
-        {1, 0},   // RIGHT
-        {1, 1},   // DOWN_RIGHT
-        {0, 1},   // DOWN
-        {-1, 1},  // DOWN_LEFT
-        {-1, 0},  // LEFT
-        {-1, -1}  // UP_LEFT
-    };
-    *dx = offsets[dir][0];
-    *dy = offsets[dir][1];
-}
-
 #endif // COMMON_H
