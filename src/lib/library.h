@@ -30,7 +30,7 @@ void close_up(int *sync_fd, int *state_fd, game_state_t **game_state, game_sync_
  * @return 0 si la conexión y el mapeo fueron exitosos, -1 en caso de error.
  */
 int connect_shared_memories(int game_state_size, int game_sync_size, int *sync_fd, int *state_fd,
-                            game_state_t **game_state, game_sync_t **game_sync);
+							game_state_t **game_state, game_sync_t **game_sync);
 
 /**
  * @brief Manejador genérico de señales
@@ -58,7 +58,9 @@ void clean_buffer(void);
  * @param y Coordenada y de la celda
  * @return Puntero a la celda en el tablero
  */
-static inline int *get_cell(game_state_t *state, int x, int y) { return &state->board[y * state->width + x]; }
+static inline int *get_cell(game_state_t *state, int x, int y) {
+	return &state->board[y * state->width + x];
+}
 
 /**
  * @brief Obtiene el desplazamiento en x e y según la dirección
@@ -67,18 +69,18 @@ static inline int *get_cell(game_state_t *state, int x, int y) { return &state->
  * @param dy Puntero para almacenar el desplazamiento en y
  */
 static inline void get_direction_offset(direction_t dir, int *dx, int *dy) {
-    static const int offsets[][2] = {
-        {0, -1}, // UP
-        {1, -1}, // UP_RIGHT
-        {1, 0},  // RIGHT
-        {1, 1},  // DOWN_RIGHT
-        {0, 1},  // DOWN
-        {-1, 1}, // DOWN_LEFT
-        {-1, 0}, // LEFT
-        {-1, -1} // UP_LEFT
-    };
-    *dx = offsets[dir][0];
-    *dy = offsets[dir][1];
+	static const int offsets[][2] = {
+		{0, -1}, // UP
+		{1, -1}, // UP_RIGHT
+		{1, 0},	 // RIGHT
+		{1, 1},	 // DOWN_RIGHT
+		{0, 1},	 // DOWN
+		{-1, 1}, // DOWN_LEFT
+		{-1, 0}, // LEFT
+		{-1, -1} // UP_LEFT
+	};
+	*dx = offsets[dir][0];
+	*dy = offsets[dir][1];
 }
 
 #endif // LIBRARY_H
