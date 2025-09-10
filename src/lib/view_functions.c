@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "view_functions.h"
 #include "library.h"
 #include <stdio.h>
@@ -25,7 +27,7 @@ const char *get_player_color(int player_id) {
 
 void print_header(void) {
     printf("=== CHOMPCHAMPS ===\n");
-    printf("Board: %d x %d | Players: %d\n\n", game_state->width, game_state->height, game_state->player_count);
+    printf("Board: %d x %d | Players: %u\n\n", game_state->width, game_state->height, game_state->player_count);
 }
 
 void print_players_info(void) {
@@ -38,7 +40,7 @@ void print_players_info(void) {
         char status = player->is_blocked ? 'X' : 'O';
         const char *color = get_player_color(i);
 
-        printf("  %d. %s%s%s [%c] - Pos: (%2d,%2d) | Score: %3d | V:%2d I:%2d\n", i + 1, color, player->name,
+        printf("  %d. %s%s%s [%c] - Pos: (%2d,%2d) | Score: %3u | V:%2u I:%2u\n", i + 1, color, player->name,
                COLOR_RESET, status, player->x, player->y, player->score, player->valid_moves, player->invalid_moves);
     }
     printf("\n");
@@ -77,7 +79,7 @@ void print_board(void) {
             } else {
                 // Celda ocupada por un jugador
                 int player_id = -(*cell);
-                if (player_id >= 0 && (unsigned short) player_id < players_count) {
+                if ((unsigned short) player_id < players_count) {
                     // Numero del jugador con su color único
                     const char *color = get_player_color(player_id);
                     printf("%sP%d%s ", color, player_id + 1, COLOR_RESET);
@@ -132,7 +134,7 @@ void print_winner(void) {
 
     if (winner != -1) {
         const char *winner_color = get_player_color(winner);
-        printf("¡WINNER: %s%s%s (%sP%d%s) with %d points!\n", winner_color, game_state->players[winner].name,
+        printf("¡WINNER: %s%s%s (%sP%d%s) with %u points!\n", winner_color, game_state->players[winner].name,
                COLOR_RESET, winner_color, winner + 1, COLOR_RESET, game_state->players[winner].score);
     } else {
         printf("¡DRAW!\n");

@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #define _GNU_SOURCE
 #include "lib/common.h"
 #include "lib/library.h"
@@ -35,8 +37,8 @@ void player_signal_wrapper(int sig) { generic_signal_handler(sig, "Player", play
 int main(int argc, char *argv[]) {
     atexit(player_close_up);
 
-    signal(SIGINT, player_signal_wrapper);
-    signal(SIGTERM, player_signal_wrapper);
+    signal(SIGINT, player_signal_wrapper);  // Ctrl+C
+    signal(SIGTERM, player_signal_wrapper); // kill
 
     check_params(argc, argv);
 

@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "lib/common.h"
 #include "lib/library.h"
 #include "lib/view_functions.h"
@@ -19,8 +21,8 @@ void view_signal_wrapper(int sig) { generic_signal_handler(sig, "View", -1, view
 int main(int argc, char *argv[]) {
     atexit(view_close_up);
 
-    signal(SIGINT, view_signal_wrapper);
-    signal(SIGTERM, view_signal_wrapper);
+    signal(SIGINT, view_signal_wrapper);  // Ctrl+C
+    signal(SIGTERM, view_signal_wrapper); // kill
 
     check_params(argc, argv);
 

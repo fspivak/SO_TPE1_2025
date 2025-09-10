@@ -11,7 +11,7 @@ LDFLAGS = -lrt -lpthread -lm
 BIN_DIR = bin
 
 
-all: clean $(BIN_DIR) player view
+all: clean $(BIN_DIR) master player view
 
 # Agregar esta nueva regla
 format:
@@ -23,6 +23,11 @@ format:
 $(BIN_DIR):
 	@mkdir -p $(BIN_DIR)
 
+master:
+	@echo "Compiling master..."
+	$(CC) $(CFLAGS) src/master.c src/lib/library.c -o $(BIN_DIR)/master $(LDFLAGS)
+	@echo "Master compiled successfully!\n"
+
 player: $(BIN_DIR)
 	@echo "Compiling player..."
 	$(CC) $(CFLAGS) src/player.c src/lib/library.c src/lib/player_functions.c -o $(BIN_DIR)/player $(LDFLAGS)
@@ -32,9 +37,6 @@ view: $(BIN_DIR)
 	@echo "Compiling view..."
 	$(CC) $(CFLAGS) src/view.c src/lib/library.c src/lib/view_functions.c -o $(BIN_DIR)/view $(LDFLAGS)
 	@echo "View compiled successfully!\n"
-
-# master:
-#    $(CC) $(CFLAGS) src/master.c src/lib/library.c -o $(BIN_DIR)/master $(LDFLAGS)
 
 clean:
 	@echo "Cleaning up..."

@@ -4,15 +4,15 @@
 #include "common.h"
 
 // Colores para los 9 jugadores
-#define COLOR_PLAYER_1 "\033[1;31m" // Rojo brillante
-#define COLOR_PLAYER_2 "\033[1;32m" // Verde brillante
-#define COLOR_PLAYER_3 "\033[1;34m" // Azul brillante
-#define COLOR_PLAYER_4 "\033[1;35m" // Magenta brillante
-#define COLOR_PLAYER_5 "\033[1;36m" // Cian brillante
-#define COLOR_PLAYER_6 "\033[1;33m" // Amarillo brillante
-#define COLOR_PLAYER_7 "\033[1;37m" // Blanco brillante
-#define COLOR_PLAYER_8 "\033[1;90m" // Gris brillante
-#define COLOR_PLAYER_9 "\033[1;91m" // Rojo claro brillante
+#define COLOR_PLAYER_1 "\033[1;31m"      // Rojo brillante
+#define COLOR_PLAYER_2 "\033[1;32m"      // Verde brillante
+#define COLOR_PLAYER_3 "\033[1;34m"      // Azul brillante
+#define COLOR_PLAYER_4 "\033[1;35m"      // Magenta brillante
+#define COLOR_PLAYER_5 "\033[1;36m"      // Cian brillante
+#define COLOR_PLAYER_6 "\033[1;33m"      // Amarillo brillante
+#define COLOR_PLAYER_7 "\033[1;37m"      // Blanco brillante
+#define COLOR_PLAYER_8 "\033[1;90m"      // Gris brillante
+#define COLOR_PLAYER_9 "\033[1;38;5;94m" // Marrón brillante
 #define COLOR_RESET "\033[0m"
 
 /**

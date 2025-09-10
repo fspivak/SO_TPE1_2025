@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "library.h"
 #include "common.h"
 #include <fcntl.h>
@@ -54,31 +56,37 @@ void close_up(int *sync_fd, int *state_fd, game_state_t **game_state, game_sync_
 
 int connect_shared_memories(int game_state_size, int game_sync_size, int *sync_fd, int *state_fd,
                             game_state_t **game_state, game_sync_t **game_sync) {
-    // open the shared memory for game state
+    // Abrir la memoria compartida para el estado del juego
     *state_fd = shm_open(GAME_STATE_SHM, O_RDONLY, 0);
     if (*state_fd == -1) {
-        perror("Error oppening shared memory (state)");
+        perror("Error opening shared memory (state)");
         return -1;
     }
 
-    // Mapping the shared memory
+    // Mapear la memoria compartida
     *game_state = mmap(NULL, game_state_size, PROT_READ, MAP_SHARED, *state_fd, 0);
-
     if (*game_state == MAP_FAILED) {
-        perror("Error mapping the shared memory (state)");
+        perror("Error mapping shared memory (state)");
+        close(*state_fd);
         return -1;
     }
 
+    // Abrir la memoria compartida para sincronización
     *sync_fd = shm_open(GAME_SYNC_SHM, O_RDWR, 0);
     if (*sync_fd == -1) {
-        perror("Error oppening shared memory (sync)");
+        perror("Error opening shared memory (sync)");
+        munmap(*game_state, game_state_size);
+        close(*state_fd);
         return -1;
     }
 
+    // Mapear la memoria compartida
     *game_sync = mmap(NULL, game_sync_size, PROT_WRITE | PROT_READ, MAP_SHARED, *sync_fd, 0);
-
     if (*game_sync == MAP_FAILED) {
-        perror("Error mapping the shared memory (sync)");
+        perror("Error mapping shared memory (sync)");
+        munmap(*game_state, game_state_size);
+        close(*state_fd);
+        close(*sync_fd);
         return -1;
     }
 
