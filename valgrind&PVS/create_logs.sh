@@ -120,7 +120,7 @@ else
     # Verificar si PVS-Studio encontró problemas
     if [ -f ~/log/pvs-studio.log ]; then
         # Contar el número de problemas encontrados (buscar líneas que no sean solo headers)
-        PROBLEM_COUNT=$(grep -v "^#" ~/log/pvs-studio.log | grep -v "^$" | grep -c "V[0-9]" 2>/dev/null || echo "0")
+        PROBLEM_COUNT=$(grep -v "^#" ~/log/pvs-studio.log | grep -v "^$" | grep -c "V[0-9]" 2>/dev/null)
         PROBLEM_COUNT=${PROBLEM_COUNT:-0}
         if [ $PROBLEM_COUNT -gt 0 ]; then
             echo -e "${YELLOW}⚠️  PVS-Studio encontró $PROBLEM_COUNT problemas potenciales${NC}"
@@ -155,7 +155,7 @@ echo -e "\n${BLUE}=== RESUMEN FINAL ===${NC}"
 echo -e "${GREEN}✅ Compilación: Sin warnings${NC}"
 echo -e "${GREEN}✅ Valgrind: Sin errores de memoria${NC}"
 
-if [ "$PROBLEM_COUNT" -gt 0 ]; then
+if [ $PROBLEM_COUNT -gt 0 ]; then
     echo -e "${YELLOW}⚠️  PVS-Studio: $PROBLEM_COUNT problemas encontrados${NC}"
     echo -e "${BLUE}   Revisa ~/log/pvs-studio-report.html para detalles${NC}"
     echo -e "${BLUE}   Justifica falsos positivos en ~/log/pvs-studio-false-positives.txt${NC}"
