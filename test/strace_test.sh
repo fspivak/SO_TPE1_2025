@@ -14,4 +14,4 @@ for ((i=1; i<=PLAYER_COUNT; i++)); do
 done
 
 # Ejecutar el master con strace
-strace -o ./test/strace_master.log -f ./bin/master -p $players -w $WIDTH -h $HEIGHT -d $DELAY -t $TIMEOUT
+strace -o ./test/strace_master.log -f ./bin/master -p $players -v ./bin/view -w $WIDTH -h $HEIGHT -d $DELAY -t $TIMEOUT
