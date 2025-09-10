@@ -63,6 +63,14 @@ static inline int *get_cell(game_state_t *state, int x, int y) {
 }
 
 /**
+ * @brief Verifica si un movimiento es válido para un jugador
+ * @param player_id ID del jugador
+ * @param direction Dirección del movimiento
+ * @param game_state Estado del juego
+ * @return true si el movimiento es válido, false en caso contrario
+ */
+bool is_valid_move(int player_id, direction_t direction, game_state_t *game_state);
+/**
  * @brief Obtiene el desplazamiento en x e y según la dirección
  * @param dir Dirección del movimiento
  * @param dx Puntero para almacenar el desplazamiento en x

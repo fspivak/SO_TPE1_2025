@@ -25,7 +25,7 @@ $(BIN_DIR):
 
 master:
 	@echo "Compiling master..."
-	$(CC) $(CFLAGS) src/master.c src/lib/library.c -o $(BIN_DIR)/master $(LDFLAGS)
+	$(CC) $(CFLAGS) src/master.c src/lib/library.c src/lib/master_functions.c -o $(BIN_DIR)/master $(LDFLAGS)
 	@echo "Master compiled successfully!\n"
 
 player: $(BIN_DIR)

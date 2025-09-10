@@ -48,24 +48,6 @@ void exit_read_state(void) {
 	sem_post(&game_sync->reader_count_mutex); // Libero exclusión mutua para reader_count
 }
 
-bool is_valid_move(int player_id, direction_t direction) {
-	player_t *player = &game_state->players[player_id];
-	int dx, dy;
-
-	// Futura posición del player
-	get_direction_offset(direction, &dx, &dy);
-	int new_x = player->x + dx;
-	int new_y = player->y + dy;
-
-	// Validación de que la nueva posición esté dentro del tablero
-	if (new_x < 0 || new_y < 0 || new_x >= game_state->width || new_y >= game_state->height) {
-		return false;
-	}
-
-	// Validar que no esté ocupado
-	int *cell = get_cell(game_state, new_x, new_y);
-	return (*cell > 0);
-}
 
 direction_t choose_strategic_move(void) {
 	// Estrategia simple: movimiento aleatorio

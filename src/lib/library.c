@@ -94,3 +94,22 @@ int connect_shared_memories(int game_state_size, int game_sync_size, int *sync_f
 
 	return 0;
 }
+
+bool is_valid_move(int player_id, direction_t direction, game_state_t *game_state) {
+    player_t *player = &game_state->players[player_id];
+    int dx, dy;
+
+    // Futura posición del player
+    get_direction_offset(direction, &dx, &dy);
+    int new_x = player->x + dx;
+    int new_y = player->y + dy;
+
+    // Validación de que la nueva posición esté dentro del tablero
+    if (new_x < 0 || new_y < 0 || new_x >= game_state->width || new_y >= game_state->height) {
+        return false;
+    }
+
+    // Validar que no esté ocupado
+    int *cell = get_cell(game_state, new_x, new_y);
+    return (*cell > 0);
+}

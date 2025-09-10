@@ -10,6 +10,10 @@
 #define GAME_STATE_SHM "/game_state"
 #define GAME_SYNC_SHM "/game_sync"
 
+#define VIEW_TIMEOUT_SEC 2
+#define VIEW_CLEANUP_TIMEOUT_SEC 1
+
+
 // Direcciones de movimiento (0-7, empezando por arriba y en sentido horario)
 typedef enum {
 	DIR_UP = 0,		// Arriba
@@ -53,5 +57,17 @@ typedef struct {
 	unsigned int reader_count;		// Cantidad de jugadores leyendo estado (F)
 	sem_t player_turn[MAX_PLAYERS]; // Semáforos para cada jugador (G)
 } game_sync_t;
+
+// Configuración del master
+typedef struct {
+	int width;						// Ancho del tablero
+	int height;						// Alto del tablero
+	int delay;						// Retardo entre movimientos
+	int timeout;					// Tiempo de espera para la vista
+	unsigned int seed;				// Semilla para la generación de números aleatorios
+	char *view_path;				// Ruta de la vista
+	char **player_paths;			// Rutas de los ejecutables de los jugadores
+	int player_count;				// Cantidad de jugadores
+} master_config_t;
 
 #endif // COMMON_H

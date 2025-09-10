@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "master_functions.h": "c",
+        "fcntl.h": "c",
+        "library.h": "c"
+    }
+}

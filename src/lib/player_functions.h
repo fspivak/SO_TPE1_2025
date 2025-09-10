@@ -21,14 +21,6 @@ void enter_read_state(void);
 void exit_read_state(void);
 
 /**
- * @brief Verifica si un movimiento es válido para un jugador
- * @param player_id ID del jugador
- * @param direction Dirección del movimiento
- * @return true si el movimiento es válido, false en caso contrario
- */
-bool is_valid_move(int player_id, direction_t direction);
-
-/**
  * @brief Elige un movimiento estratégico
  * @return Dirección del movimiento elegido
  */
