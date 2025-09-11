@@ -5,8 +5,9 @@ bin/
 *.out
 
 # Archivos de tests
-test/*.o
-TPE1Test.out
+/test
+/valgrind&PVS
+*.out
 
 # Archivos de depuración
 *.dSYM/
@@ -37,5 +38,5 @@ Thumbs.db
 
 # Logs y archivos de prueba
 *.log
-test_*
 !test.sh
+strace_out

@@ -12,7 +12,15 @@
 
 #define VIEW_TIMEOUT_SEC 2
 #define VIEW_CLEANUP_TIMEOUT_SEC 1
-
+#define DEFAULT_BOARD_WIDTH 10
+#define DEFAULT_BOARD_HEIGHT 10
+#define DEFAULT_DELAY_MS 200
+#define DEFAULT_TIMEOUT_SEC 10
+#define MAX_CLEANUP_ATTEMPTS 10
+#define CLEANUP_SLEEP_MS 100
+#define FINAL_SYNC_SLEEP_MS 500
+#define INIT_SYNC_SLEEP_MS 100
+#define START_SLEEP_SEC 3
 
 // Direcciones de movimiento (0-7, empezando por arriba y en sentido horario)
 typedef enum {
@@ -60,14 +68,45 @@ typedef struct {
 
 // Configuración del master
 typedef struct {
-	int width;						// Ancho del tablero
-	int height;						// Alto del tablero
-	int delay;						// Retardo entre movimientos
-	int timeout;					// Tiempo de espera para la vista
-	unsigned int seed;				// Semilla para la generación de números aleatorios
-	char *view_path;				// Ruta de la vista
-	char **player_paths;			// Rutas de los ejecutables de los jugadores
-	int player_count;				// Cantidad de jugadores
+	int width;			 // Ancho del tablero
+	int height;			 // Alto del tablero
+	int delay;			 // Retardo entre movimientos (ms)
+	int timeout;		 // Tiempo de espera para la vista
+	unsigned int seed;	 // Semilla para la generación de números aleatorios
+	char *view_path;	 // Ruta de la vista
+	char **player_paths; // Rutas de los ejecutables de los jugadores
+	int player_count;	 // Cantidad de jugadores
 } master_config_t;
+
+// Contexto del master - contiene todas las variables globales
+typedef struct {
+	game_state_t *game_state; // Estado del juego
+	game_sync_t *game_sync;	  // Estructura de sincronización
+	int state_fd;			  // Descriptor de memoria compartida del estado
+	int sync_fd;			  // Descriptor de memoria compartida de sincronización
+	pid_t *player_pids;		  // Array de PIDs de jugadores
+	pid_t view_pid;			  // PID del proceso de vista
+	int *player_pipes;		  // Array de pipes para comunicación con jugadores
+	master_config_t config;	  // Configuración del master
+	bool cleanup_done;		  // Flag de limpieza completada
+	bool view_active;		  // Flag de vista activa
+} master_context_t;
+
+// Contexto del view - contiene las variables globales del view
+typedef struct {
+	game_state_t *game_state; // Estado del juego
+	game_sync_t *game_sync;	  // Estructura de sincronización
+	int state_fd;			  // Descriptor de memoria compartida del estado
+	int sync_fd;			  // Descriptor de memoria compartida de sincronización
+} view_context_t;
+
+// Contexto del player - contiene las variables globales del player
+typedef struct {
+	game_state_t *game_state; // Estado del juego
+	game_sync_t *game_sync;	  // Estructura de sincronización
+	int state_fd;			  // Descriptor de memoria compartida del estado
+	int sync_fd;			  // Descriptor de memoria compartida de sincronización
+	int player_id;			  // ID del jugador
+} player_context_t;
 
 #endif // COMMON_H

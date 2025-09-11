@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -pthread -pedantic
 
 # Linker/Loader Flags
-LDFLAGS = -lrt -lpthread -lm
+LDFLAGS = -lrt -lpthread
 
 # Directorios
 BIN_DIR = bin
