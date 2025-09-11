@@ -2,7 +2,7 @@
 CC = gcc
 
 # Flags
-CFLAGS = -Wall -Wextra -std=c99 -pthread -pedantic
+CFLAGS = -Wall -Wextra -Werror -std=c99 -pthread -pedantic
 
 # Linker/Loader Flags
 LDFLAGS = -lrt -lpthread
@@ -25,17 +25,17 @@ $(BIN_DIR):
 
 master:
 	@echo "Compiling master..."
-	$(CC) $(CFLAGS) src/master.c src/lib/library.c src/lib/master_functions.c -o $(BIN_DIR)/master $(LDFLAGS)
+	@$(CC) $(CFLAGS) src/master.c src/lib/library.c src/lib/config_management.c src/lib/memory_management.c src/lib/process_management.c src/lib/game_logic.c src/lib/game_loop.c src/lib/results_display.c -o $(BIN_DIR)/master $(LDFLAGS)
 	@echo "Master compiled successfully!\n"
 
 player: $(BIN_DIR)
 	@echo "Compiling player..."
-	$(CC) $(CFLAGS) src/player.c src/lib/library.c src/lib/player_functions.c -o $(BIN_DIR)/player $(LDFLAGS)
+	@$(CC) $(CFLAGS) src/player.c src/lib/library.c src/lib/player_functions.c -o $(BIN_DIR)/player $(LDFLAGS)
 	@echo "Player compiled successfully!\n"
 
 view: $(BIN_DIR)
 	@echo "Compiling view..."
-	$(CC) $(CFLAGS) src/view.c src/lib/library.c src/lib/view_functions.c -o $(BIN_DIR)/view $(LDFLAGS)
+	@$(CC) $(CFLAGS) src/view.c src/lib/library.c src/lib/view_functions.c -o $(BIN_DIR)/view $(LDFLAGS)
 	@echo "View compiled successfully!\n"
 
 clean:

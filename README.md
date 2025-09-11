@@ -38,10 +38,13 @@ ChompChamps es un juego multijugador donde:
 
 ### Estructuras de Datos
 
-- **`game_state_t`**: Estado del juego (tablero, jugadores, puntajes)
-- **`game_sync_t`**: Sincronización entre procesos (semáforos, contadores)
-- **`player_t`**: Información individual de cada jugador
-- **Contextos**: `master_context_t`, `view_context_t`, `player_context_t`
+- **`player_t`**: Información individual de cada jugador (nombre, puntaje, posición, estado)
+- **`game_state_t`**: Estado del juego (tablero, jugadores, puntajes, fin de juego)
+- **`game_sync_t`**: Sincronización entre procesos (semáforos, contadores, mutex)
+- **`master_config_t`**: Configuración del master (parámetros del juego)
+- **`master_context_t`**: Contexto del proceso master (memoria compartida, PIDs, pipes)
+- **`view_context_t`**: Contexto del proceso view (acceso a memoria compartida)
+- **`player_context_t`**: Contexto del proceso player (acceso a memoria compartida, ID)
 
 ## 🛠️ Instrucciones de Compilación
 
@@ -96,7 +99,7 @@ El proyecto se compila con las siguientes flags estrictas:
 
 3. **Ejecutar el programa**:
    ```bash
-   ./bin/master [parámetros]
+   ./bin/master -p ./bin/player [otros parámetros]
    ```
 
 ### Notas Importantes
@@ -110,7 +113,7 @@ El proyecto se compila con las siguientes flags estrictas:
 ### Sintaxis de Ejecución
 
 ```bash
-./bin/master [-w width] [-h height] [-d delay] [-t timeout] [-s seed] [-v view] -p player1 [player2] ... [player9]
+./bin/master [-w width] [-h height] [-d delay] [-t timeout] [-s seed] [-v ./bin/view] -p ./bin/player1 [./bin/player2] ... [./bin/player9]
 ```
 
 ### Parámetros
@@ -122,29 +125,29 @@ El proyecto se compila con las siguientes flags estrictas:
 - **`[-d delay]`**: Milisegundos que espera el master cada vez que se imprime el estado. **Default: 200**
 - **`[-t timeout]`**: Timeout en segundos para recibir solicitudes de movimientos válidos. **Default: 10**
 - **`[-s seed]`**: Semilla utilizada para la generación del tablero. **Default: time(NULL)**
-- **`[-v view]`**: Ruta del binario de la vista. **Default: Sin vista**
+- **`[-v ./bin/view]`**: Ruta del binario de la vista. **Default: Sin vista**
 
 #### Parámetros Obligatorios
 
-- **`-p player1 [player2] ... [player9]`**: Ruta/s de los binarios de los jugadores. **Mínimo: 1, Máximo: 9**
+- **`-p ./bin/player1 [./bin/player2] ... [./bin/player9]`**: Ruta/s de los binarios de los jugadores. **Mínimo: 1, Máximo: 9**
 
 ### Ejemplos de Ejecución
 
 ```bash
 # Juego básico con 1 jugador (usando valores por defecto)
-./bin/master -p player
+./bin/master -p ./bin/player
 
 # Juego con configuración personalizada
-./bin/master -w 15 -h 15 -d 100 -t 15 -v view -p player
+./bin/master -w 15 -h 15 -d 100 -t 15 -v ./bin/view -p ./bin/player
 
 # Juego con múltiples jugadores
-./bin/master -w 20 -h 20 -d 50 -t 20 -v view -p player player player
+./bin/master -w 20 -h 20 -d 50 -t 20 -v ./bin/view -p ./bin/player ./bin/player ./bin/player
 
 # Juego con semilla específica y sin vista
-./bin/master -w 12 -h 12 -s 12345 -p ./ai_player ./strategic_player
+./bin/master -w 12 -h 12 -s 12345 -p ./bin/player ./bin/player
 
 # Juego con configuración completa
-./bin/master -w 25 -h 25 -d 75 -t 30 -s 98765 -v ./custom_view -p ./player1 ./player2 ./player3
+./bin/master -w 25 -h 25 -d 75 -t 30 -s 98765 -v ./bin/view -p ./bin/player ./bin/player ./bin/player
 ```
 
 ## 📁 Estructura del Proyecto
@@ -152,40 +155,34 @@ El proyecto se compila con las siguientes flags estrictas:
 ```
 SO_TPE1_2025/
 ├── src/        # Código fuente
-│   ├── master.c        # Proceso master
-│   ├── view.c          # Proceso view
+│   ├── master.c        # Proceso master 
+│   ├── view.c          # Proceso view 
 │   ├── player.c        # Proceso player
-│   └── lib/            # Librerías compartidas
-│       ├── common.h                # Estructuras y constantes
-│       ├── library.c               # Funciones de utilidad
-│       ├── master_functions.c      # Funciones del master
-│       ├── view_functions.c        # Funciones del view
-│       └── player_functions.c      # Funciones del player
+│   └── lib/            # Librerías modulares compartidas
+│       ├── common.h                # Estructuras y constantes globales
+│       ├── library.c/.h            # Funciones de utilidad generales
+│       ├── config_management.c/.h  # Gestión de configuración y argumentos
+│       ├── memory_management.c/.h  # Gestión de memoria compartida
+│       ├── process_management.c/.h # Gestión de procesos (fork, cleanup)
+│       ├── game_logic.c/.h         # Lógica del juego (movimientos, validaciones)
+│       ├── game_loop.c/.h          # Bucle principal del juego
+│       ├── results_display.c/.h    # Visualización de resultados y parámetros
+│       ├── view_functions.c/.h     # Funciones específicas del view
+│       └── player_functions.c/.h   # Funciones específicas del player
 ├── bin/                # Ejecutables compilados
-├── test/               # Tests y ejemplos
-├── valgrind&PVS/       # Herramientas de análisis
-├── log/                # Logs de ejecución
 ├── Makefile            # Archivo de compilación
 └── README.md           # Este archivo
 ```
 
-## 🧪 Testing y Debugging
+## 🧪 Testing y Calidad del Código
 
-### Valgrind
+### Herramientas Utilizadas
+- **Valgrind**: Verificación de memory leaks y errores de memoria
+- **PVS-Studio**: Análisis estático de código para detección de bugs
+- **Strace**: Análisis de llamadas al sistema para debugging
 
-```bash
-valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./bin/master -w 10 -h 10 -d 200 -t 15 -v ./view -p ./player
-```
-
-### PVS-Studio
-
-```bash
-    pvs-studio-analyzer analyze -o ~/log/pvs-studio.log
-```
-
-## 📝 Notas de Desarrollo
-
-- **Compilación**: El código compila sin warnings con `-Wall -Wextra -Werror`
-- **Memoria**: Sin memory leaks verificados con Valgrind
-- **Sincronización**: Implementación robusta sin deadlocks
+### Resultados
+- **Compilación**: Sin warnings con `-Wall -Wextra -Werror`
+- **Memoria**: Sin memory leaks detectados
+- **Sincronización**: Implementación sin deadlocks
 - **Portabilidad**: Compatible con sistemas POSIX

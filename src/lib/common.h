@@ -22,7 +22,7 @@
 #define INIT_SYNC_SLEEP_MS 100
 #define START_SLEEP_SEC 3
 
-// Direcciones de movimiento (0-7, empezando por arriba y en sentido horario)
+// Direcciones de movimiento
 typedef enum {
 	DIR_UP = 0,		// Arriba
 	DIR_UP_RIGHT,	// Arriba-derecha
@@ -38,11 +38,11 @@ typedef enum {
 typedef struct {
 	char name[MAX_NAME_LEN];	// Nombre del jugador
 	unsigned int score;			// Puntaje
-	unsigned int invalid_moves; // Cantidad de movimientos inválidos
-	unsigned int valid_moves;	// Cantidad de movimientos válidos
+	unsigned int invalid_moves; // Cantidad de movimientos invalidos
+	unsigned int valid_moves;	// Cantidad de movimientos validos
 	unsigned short x, y;		// Coordenadas x e y en el tablero
 	pid_t pid;					// Identificador de proceso
-	bool is_blocked;			// Indica si el jugador está bloqueado
+	bool is_blocked;			// Indica si el jugador esta bloqueado
 } player_t;
 
 // Estado del juego
@@ -55,57 +55,57 @@ typedef struct {
 	int board[];				   // Tablero (flexible array member)
 } game_state_t;
 
-// Estructura de sincronización
+// Estructura de sincronizacion
 typedef struct {
 	sem_t view_ready;				// Master indica a vista que hay cambios (A)
-	sem_t view_done;				// Vista indica a master que terminó (B)
-	sem_t reader_writer_mutex;		// Mutex para evitar inanición del master (C)
+	sem_t view_done;				// Vista indica a master que termino (B)
+	sem_t reader_writer_mutex;		// Mutex para evitar inanicion del master (C)
 	sem_t state_mutex;				// Mutex para el estado del juego (D)
 	sem_t reader_count_mutex;		// Mutex para reader_count (E)
 	unsigned int reader_count;		// Cantidad de jugadores leyendo estado (F)
-	sem_t player_turn[MAX_PLAYERS]; // Semáforos para cada jugador (G)
+	sem_t player_turn[MAX_PLAYERS]; // Semaforos para cada jugador (G)
 } game_sync_t;
 
-// Configuración del master
+// Configuracion del master
 typedef struct {
 	int width;			 // Ancho del tablero
 	int height;			 // Alto del tablero
 	int delay;			 // Retardo entre movimientos (ms)
 	int timeout;		 // Tiempo de espera para la vista
-	unsigned int seed;	 // Semilla para la generación de números aleatorios
+	unsigned int seed;	 // Semilla para la generacion de numeros aleatorios
 	char *view_path;	 // Ruta de la vista
 	char **player_paths; // Rutas de los ejecutables de los jugadores
 	int player_count;	 // Cantidad de jugadores
 } master_config_t;
 
-// Contexto del master - contiene todas las variables globales
+// Contexto del master - variables globales
 typedef struct {
 	game_state_t *game_state; // Estado del juego
-	game_sync_t *game_sync;	  // Estructura de sincronización
+	game_sync_t *game_sync;	  // Estructura de sincronizacion
 	int state_fd;			  // Descriptor de memoria compartida del estado
-	int sync_fd;			  // Descriptor de memoria compartida de sincronización
+	int sync_fd;			  // Descriptor de memoria compartida de sincronizacion
 	pid_t *player_pids;		  // Array de PIDs de jugadores
 	pid_t view_pid;			  // PID del proceso de vista
-	int *player_pipes;		  // Array de pipes para comunicación con jugadores
-	master_config_t config;	  // Configuración del master
+	int *player_pipes;		  // Array de pipes para comunicacion con jugadores
+	master_config_t config;	  // Configuracion del master
 	bool cleanup_done;		  // Flag de limpieza completada
 	bool view_active;		  // Flag de vista activa
 } master_context_t;
 
-// Contexto del view - contiene las variables globales del view
+// Contexto del view - variables globales
 typedef struct {
 	game_state_t *game_state; // Estado del juego
-	game_sync_t *game_sync;	  // Estructura de sincronización
+	game_sync_t *game_sync;	  // Estructura de sincronizacion
 	int state_fd;			  // Descriptor de memoria compartida del estado
-	int sync_fd;			  // Descriptor de memoria compartida de sincronización
+	int sync_fd;			  // Descriptor de memoria compartida de sincronizacion
 } view_context_t;
 
-// Contexto del player - contiene las variables globales del player
+// Contexto del player - variables globales
 typedef struct {
 	game_state_t *game_state; // Estado del juego
-	game_sync_t *game_sync;	  // Estructura de sincronización
+	game_sync_t *game_sync;	  // Estructura de sincronizacion
 	int state_fd;			  // Descriptor de memoria compartida del estado
-	int sync_fd;			  // Descriptor de memoria compartida de sincronización
+	int sync_fd;			  // Descriptor de memoria compartida de sincronizacion
 	int player_id;			  // ID del jugador
 } player_context_t;
 

@@ -3,10 +3,56 @@
 #include "library.h"
 #include "common.h"
 #include <fcntl.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
 #include <unistd.h>
+
+int *get_cell(game_state_t *state, int x, int y) {
+	return &state->board[y * state->width + x];
+}
+
+void get_direction_offset(direction_t dir, int *dx, int *dy) {
+	static const int offsets[][2] = {
+		{0, -1}, // UP
+		{1, -1}, // UP_RIGHT
+		{1, 0},	 // RIGHT
+		{1, 1},	 // DOWN_RIGHT
+		{0, 1},	 // DOWN
+		{-1, 1}, // DOWN_LEFT
+		{-1, 0}, // LEFT
+		{-1, -1} // UP_LEFT
+	};
+	*dx = offsets[dir][0];
+	*dy = offsets[dir][1];
+}
+
+const char *get_player_color(int player_id) {
+	static const char *player_colors[MAX_PLAYER_COLORS] = {COLOR_PLAYER_1, COLOR_PLAYER_2, COLOR_PLAYER_3,
+														   COLOR_PLAYER_4, COLOR_PLAYER_5, COLOR_PLAYER_6,
+														   COLOR_PLAYER_7, COLOR_PLAYER_8, COLOR_PLAYER_9};
+
+	if (player_id >= 0 && player_id < MAX_PLAYER_COLORS) {
+		return player_colors[player_id];
+	}
+	return COLOR_RESET;
+}
+
+// Funcion utilitaria para calcular tamaños de memoria compartida
+size_t calculate_game_state_size(int width, int height) {
+	return sizeof(game_state_t) + width * height * sizeof(int);
+}
+
+size_t calculate_game_sync_size(void) {
+	return sizeof(game_sync_t);
+}
+
+// Funcion utilitaria para inicializacion estandar de señales
+void setup_standard_signals(void (*signal_handler)(int)) {
+	signal(SIGINT, signal_handler);	 // Ctrl+C
+	signal(SIGTERM, signal_handler); // kill
+}
 
 void generic_signal_handler(int sig, const char *process_name, int process_id, void (*cleanup_fn)(void)) {
 	if (process_id >= 0) {
@@ -73,7 +119,7 @@ int connect_shared_memories(int game_state_size, int game_sync_size, int *sync_f
 		return -1;
 	}
 
-	// Abrir la memoria compartida para sincronización
+	// Abrir la memoria compartida para sincronizacion
 	*sync_fd = shm_open(GAME_SYNC_SHM, O_RDWR, 0);
 	if (*sync_fd == -1) {
 		perror("Error opening shared memory (sync)");
@@ -96,20 +142,20 @@ int connect_shared_memories(int game_state_size, int game_sync_size, int *sync_f
 }
 
 bool is_valid_move(int player_id, direction_t direction, game_state_t *game_state) {
-    player_t *player = &game_state->players[player_id];
-    int dx, dy;
+	player_t *player = &game_state->players[player_id];
+	int dx, dy;
 
-    // Futura posición del player
-    get_direction_offset(direction, &dx, &dy);
-    int new_x = player->x + dx;
-    int new_y = player->y + dy;
+	// Futura posicion del player
+	get_direction_offset(direction, &dx, &dy);
+	int new_x = player->x + dx;
+	int new_y = player->y + dy;
 
-    // Validación de que la nueva posición esté dentro del tablero
-    if (new_x < 0 || new_y < 0 || new_x >= game_state->width || new_y >= game_state->height) {
-        return false;
-    }
+	// Validacion de que la nueva posicion este dentro del tablero
+	if (new_x < 0 || new_y < 0 || new_x >= game_state->width || new_y >= game_state->height) {
+		return false;
+	}
 
-    // Validar que no esté ocupado
-    int *cell = get_cell(game_state, new_x, new_y);
-    return (*cell > 0);
+	// Validar que no este ocupado
+	int *cell = get_cell(game_state, new_x, new_y);
+	return (*cell > 0);
 }
