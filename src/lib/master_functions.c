@@ -95,6 +95,9 @@ void cleanup_view_process(void) {
 }
 
 void master_cleanup(void) {
+	// Limpiar proceso de view primero
+	cleanup_view_process();
+	
 	if (player_pids != NULL) {
 		for (int i = 0; i < config.player_count; i++) {
 			if (player_pids[i] > 0) {
