@@ -4,11 +4,9 @@
 #include "lib/common.h"
 #include "lib/config_management.h"
 #include "lib/game_logic.h"
-#include "lib/game_loop.h"
 #include "lib/library.h"
 #include "lib/memory_management.h"
 #include "lib/process_management.h"
-#include "lib/results_display.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>

@@ -161,12 +161,10 @@ SO_TPE1_2025/
 │   └── lib/            # Librerías modulares compartidas
 │       ├── common.h                # Estructuras y constantes globales
 │       ├── library.c/.h            # Funciones de utilidad generales
-│       ├── config_management.c/.h  # Gestión de configuración y argumentos
+│       ├── config_management.c/.h  # Gestión de configuración y argumentos; Visualización de resultados y parámetros
 │       ├── memory_management.c/.h  # Gestión de memoria compartida
 │       ├── process_management.c/.h # Gestión de procesos (fork, cleanup)
-│       ├── game_logic.c/.h         # Lógica del juego (movimientos, validaciones)
-│       ├── game_loop.c/.h          # Bucle principal del juego
-│       ├── results_display.c/.h    # Visualización de resultados y parámetros
+│       ├── game_logic.c/.h         # Lógica del juego (movimientos, validaciones) y Bucle principal del juego
 │       ├── view_functions.c/.h     # Funciones específicas del view
 │       └── player_functions.c/.h   # Funciones específicas del player
 ├── bin/                # Ejecutables compilados

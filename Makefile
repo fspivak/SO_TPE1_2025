@@ -25,7 +25,7 @@ $(BIN_DIR):
 
 master:
 	@echo "Compiling master..."
-	@$(CC) $(CFLAGS) src/master.c src/lib/library.c src/lib/config_management.c src/lib/memory_management.c src/lib/process_management.c src/lib/game_logic.c src/lib/game_loop.c src/lib/results_display.c -o $(BIN_DIR)/master $(LDFLAGS)
+	@$(CC) $(CFLAGS) src/master.c src/lib/library.c src/lib/config_management.c src/lib/memory_management.c src/lib/process_management.c src/lib/game_logic.c -o $(BIN_DIR)/master $(LDFLAGS)
 	@echo "Master compiled successfully!\n"
 
 player: $(BIN_DIR)

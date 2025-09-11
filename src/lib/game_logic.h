@@ -32,4 +32,10 @@ bool check_game_end(master_context_t *ctx);
  */
 void sync_with_view(master_context_t *ctx);
 
+/**
+ * @brief Bucle principal del juego
+ * @param ctx Puntero al contexto del master
+ */
+void game_loop(master_context_t *ctx);
+
 #endif // GAME_LOGIC_H
