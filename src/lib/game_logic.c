@@ -92,8 +92,6 @@ void sync_with_view(master_context_t *ctx) {
 	}
 }
 
-//////////////Functions for GAME LOOP/////////////////////
-
 // Funcion auxiliar para configurar file descriptors
 static void setup_file_descriptors(master_context_t *ctx, fd_set *readfds, int *max_fd) {
 	FD_ZERO(readfds);

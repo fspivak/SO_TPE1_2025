@@ -30,9 +30,7 @@ void display_game_parameters(const master_config_t *config);
  * @param view_pid PID del proceso view
  * @param view_active Si la view esta activa
  */
-void display_processes_info(const master_config_t *config, const pid_t *player_pids, pid_t view_pid, bool view_active,
-							pid_t master_pid);
-// TODO: BORRAR MASTER PID
+void display_processes_info(const master_config_t *config, const pid_t *player_pids, pid_t view_pid, bool view_active);
 
 /**
  * @brief Muestra el mensaje de inicio del juego

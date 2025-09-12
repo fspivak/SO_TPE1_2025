@@ -93,7 +93,6 @@ void parse_arguments(int argc, char *argv[], master_config_t *config) {
 	}
 }
 
-////////////RESULT DISPLAY//////////
 void print_final_results(master_context_t *ctx) {
 	printf("\n=== FINAL RESULTS ===\n");
 
@@ -158,8 +157,7 @@ void display_game_parameters(const master_config_t *config) {
 	printf("Players: %d\n", config->player_count);
 }
 
-void display_processes_info(const master_config_t *config, const pid_t *player_pids, pid_t view_pid, bool view_active,
-							pid_t master_pid) {
+void display_processes_info(const master_config_t *config, const pid_t *player_pids, pid_t view_pid, bool view_active) {
 	// Informacion de procesos creados
 	for (int i = 0; i < config->player_count; i++) {
 		printf("   %d. %s (PID: %d)\n", i + 1, config->player_paths[i], player_pids[i]);
@@ -171,8 +169,6 @@ void display_processes_info(const master_config_t *config, const pid_t *player_p
 	else {
 		printf("View: No view\n");
 	}
-
-	printf("Master: (PID: %d)\n", master_pid);
 }
 
 void display_game_start(void) {

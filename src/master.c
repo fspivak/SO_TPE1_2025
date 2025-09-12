@@ -63,9 +63,7 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	// TODO: BORRAR MASTER PID
-	display_processes_info(&master_ctx.config, master_ctx.player_pids, master_ctx.view_pid, master_ctx.view_active,
-						   getpid());
+	display_processes_info(&master_ctx.config, master_ctx.player_pids, master_ctx.view_pid, master_ctx.view_active);
 
 	display_game_start();
 
