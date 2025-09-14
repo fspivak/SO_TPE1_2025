@@ -187,11 +187,11 @@ void game_loop(master_context_t *ctx) {
 	time_t last_valid_move = time(NULL);
 	int current_player = 0;
 
-	// Starting game loop
+	// arranca el juego
 
 	// Sincronizacion inicial con view
 	if (ctx->view_active && ctx->config.view_path != NULL) {
-		// Initial sync with view
+		// inicia la sync con la vista
 		sync_with_view(ctx);
 	}
 
@@ -241,7 +241,7 @@ void game_loop(master_context_t *ctx) {
 
 	// Notificacion final a view
 	if (ctx->view_active && ctx->config.view_path != NULL) {
-		// Final sync with view
+		// finaliza la sync con la vista
 		sync_with_view(ctx);
 	}
 }
