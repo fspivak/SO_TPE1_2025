@@ -165,6 +165,14 @@ static int create_player_process(master_context_t *ctx, int player_id, const cha
 	}
 	else if (pid == 0) {
 		// Proceso hijo (player)
+
+		// Cierre de todos los pipes de otros jugadores que se heredaron del fork
+		for (int i = 0; i < ctx->config.player_count; i++) {
+			if (ctx->player_pipes[i] != -1) {
+				close(ctx->player_pipes[i]);
+			}
+		}
+
 		close(pipefd[0]);
 
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1) {
