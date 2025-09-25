@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define tornado_strategic true
+#define tornado_strategic false
 
 player_context_t player_ctx = {0};
 

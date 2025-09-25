@@ -54,6 +54,13 @@ direction_t choose_tornado_move(player_context_t *ctx, direction_t last_move, in
 	return last_move;
 }
 
+direction_t choose_random_move() {
+	srand(time(NULL));
+
+	direction_t move = (rand() % 7);
+	return move;
+}
+
 direction_t select_first_move(int player_id, game_state_t *game_state) {
 	int width = game_state->width;
 	int height = game_state->height;
@@ -117,7 +124,7 @@ void initialize_player_context(player_context_t *ctx, int argc, char *argv[]) {
 	}
 }
 
-void player_main_loop(player_context_t *ctx) {
+void player_main_loop(player_context_t *ctx, bool tornado_strategic) {
 	direction_t chosen_move = select_first_move(ctx->player_id, ctx->game_state);
 
 	while (true) {
@@ -133,7 +140,8 @@ void player_main_loop(player_context_t *ctx) {
 			break;
 		}
 
-		chosen_move = choose_tornado_move(ctx, chosen_move, 0);
+		chosen_move = (tornado_strategic ? choose_tornado_move(ctx, chosen_move, 0) : choose_random_move());
+
 		exit_read_state(ctx);
 
 		send_move(chosen_move); // Enviar movimiento al master

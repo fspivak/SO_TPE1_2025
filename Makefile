@@ -11,7 +11,7 @@ LDFLAGS = -lrt -lpthread
 BIN_DIR = bin
 
 
-all: clean $(BIN_DIR) master player view
+all: clean $(BIN_DIR) master player player_random view
 
 # Agregar esta nueva regla
 format:
@@ -32,6 +32,11 @@ player: $(BIN_DIR)
 	@echo "Compiling player..."
 	@$(CC) $(CFLAGS) src/player.c src/lib/library.c src/lib/player_functions.c -o $(BIN_DIR)/player $(LDFLAGS)
 	@echo "Player compiled successfully!\n"
+
+player_random: $(BIN_DIR)
+	@echo "Compiling random player..."
+	@$(CC) $(CFLAGS) src/player_random.c src/lib/library.c src/lib/player_functions.c -o $(BIN_DIR)/player_random $(LDFLAGS)
+	@echo "Player random compiled successfully!\n"
 
 view: $(BIN_DIR)
 	@echo "Compiling view..."

@@ -40,7 +40,8 @@ void initialize_player_context(player_context_t *ctx, int argc, char *argv[]);
 /**
  * @brief Bucle principal del player
  * @param ctx Puntero al contexto del player
+ * @param tornado_strategic flag par estrategia
  */
-void player_main_loop(player_context_t *ctx);
+void player_main_loop(player_context_t *ctx, bool tornado_strategic);
 
 #endif // PLAYER_FUNCTIONS_H
