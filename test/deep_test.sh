@@ -2,7 +2,7 @@
 # Sistema de Testing Integral para ChompChamps
 # Verifica: deadlocks, limpieza de recursos, pipes, memoria compartida, memoria leak, overflows y semáforos
 # Este script es para ejecutar el test_deep.sh en el contenedor de Docker
-# Tiempo de ejecución TOTAL:  5 minutos 30 segundos (330s)
+# Tiempo de ejecución TOTAL:  8 minutos 28 segundos (508 s)
 
 # Colores para output
 RED='\033[0;31m'
@@ -15,7 +15,7 @@ NC='\033[0m' # No Color
 # Configuración
 TEST_ITERATIONS=5
 TIMEOUT_SECONDS=30
-LOG_FILE="./test/chompchamps_test.log"
+LOG_FILE="./test/deep_test.log"
 MASTER_BIN="./bin/master"
 PLAYER_BIN="./bin/player"
 VIEW_BIN="./bin/view"
@@ -194,11 +194,11 @@ main() {
 
     # Tests a ejecutar
     declare -A tests=(
-        ["1"]="$MASTER_BIN -p $PLAYER_BIN -w 5 -h 5 -d 50"
-        ["2"]="$MASTER_BIN -p $PLAYER_BIN $PLAYER_BIN -w 6 -h 6 -d 100"
-        ["3"]="$MASTER_BIN -p $PLAYER_BIN $PLAYER_BIN $PLAYER_BIN -w 7 -h 7 -d 75"
-        ["4"]="$MASTER_BIN -p $PLAYER_BIN $PLAYER_BIN -v $VIEW_BIN -w 8 -h 8 -d 150"
-        ["5"]="$MASTER_BIN -p $PLAYER_BIN -w 10 -h 10 -d 200 -t 5"
+        ["1"]="$MASTER_BIN -p $PLAYER_BIN -w 10 -h 10 -d 50"
+        ["2"]="$MASTER_BIN -p $PLAYER_BIN $PLAYER_BIN -w 10 -h 10 -d 100"
+        ["3"]="$MASTER_BIN -p $PLAYER_BIN $PLAYER_BIN $PLAYER_BIN -w 10 -h 10 -d 75"
+        ["4"]="$MASTER_BIN -p $PLAYER_BIN $PLAYER_BIN -v $VIEW_BIN -w 10 -h 10 -d 150"
+        ["5"]="$MASTER_BIN -p $PLAYER_BIN -w 10 -h 10 -d 200 -t 10"
     )
 
     # Ejecutar cada test múltiples veces

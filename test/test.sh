@@ -8,6 +8,7 @@ show_help() {
     echo "  2 - Test con 2 jugadores (15x15, delay 150ms)"
     echo "  3 - Test con 3 jugadores (20x20, delay 100ms)"
     echo "  4 - Test personalizado: ./test.sh 4 <num_jugadores> [width] [height] [delay]"
+    echo "  5 - Test con 6 jugadores (3 player + 3 player_random, 15x15, delay 100ms)"
 }
 
 # Verificar argumentos
@@ -53,6 +54,10 @@ case $test_num in
         
         echo "=== Test 4: $n jugadores en tablero ${width}x${height}, delay ${delay}ms ==="
         ./bin/master -p $players -v bin/view -w $width -h $height -d $delay 2> debug.log
+        ;;
+    5)
+        echo "=== Test 5: 6 jugadores (3 player + 3 player_random) en tablero 15x15 ==="
+        ./bin/master -p bin/player bin/player bin/player bin/player_random bin/player_random bin/player_random -v bin/view -w 15 -h 15 -d 100 2> debug.log
         ;;
     *)
         echo "Error: Test $test_num no existe"
